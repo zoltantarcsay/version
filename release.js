@@ -81,7 +81,7 @@ status()
         return (status && status.length) ? Promise.reject('There are uncommitted changes.') : getBranch();
     })
     .then(function (branch) {
-        if (branch !== '* master\n')
+        if (!~branch.indexOf('* master'))
             return checkout('master');
     })
     .then(function () {
