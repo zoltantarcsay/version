@@ -44,6 +44,10 @@ function cmd(command) {
     });
 }
 
+function status() {
+    return cmd('git status -s');
+}
+
 function checkout(branch) {
     return cmd('git checkout ' + branch);
 }
@@ -60,8 +64,21 @@ function merge(fromBranch) {
     return cmd('git merge ' + fromBranch);
 }
 
-checkout('master')
-    .then(updateVersions)
+function tag(tagName) {
+    return cmd('git tag ' + tagName);
+}
+
+function pushTags() {
+    return cmd('git push --tags');
+}
+
+status()
+    .then(function (status) {
+        return (status && status.length) ? Promise.reject('There are uncommitted changes.') : checkout('master');
+    })
+    .then(function () {
+        return updateVersions();
+    })
     .then(function () {
         return commit('v' + newVersion);
     })
@@ -75,11 +92,23 @@ checkout('master')
         return merge('master');
     })
     .then(function () {
+        return push();
+    })
+    .then(function () {
         return checkout('release/production');
     })
     .then(function () {
         return merge('release/beta');
     })
+    .then(function () {
+        return push();
+    })
+    .then(function () {
+        return tag('v' + newVersion);
+    })
+    .then(function () {
+        return pushTags();
+    })
     .catch(function (err) {
-        console.err(err);
+        console.error(err);
     });
