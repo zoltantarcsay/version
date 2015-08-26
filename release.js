@@ -25,7 +25,7 @@ function updateVersions() {
 
     return Promise.all(manifests.map(function (manifest) {
         return new Promise(function (resolve, reject) {
-            fs.wirteFile(manifest.path, JSON.stringify(manifest.data, null, 2), function (err) {
+            fs.writeFile(manifest.path, JSON.stringify(manifest.data, null, 2), function (err) {
                 if (err) return reject(err);
                 resolve();
             });
