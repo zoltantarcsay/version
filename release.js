@@ -8,7 +8,7 @@ var args = process.argv.slice(2),
 
 function updateVersions() {
     manifests.forEach(function (manifest) {
-        manifest.data = require(manifest);
+        manifest.data = require(manifest.path);
         manifest.oldVersion = manifest.data.version;
     });
 
