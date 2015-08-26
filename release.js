@@ -37,7 +37,8 @@ function cmd(command) {
     return new Promise(function (resolve, reject) {
         exec(command, function (err, stdout, stderr) {
             if (err) return reject(err);
-            if (stderr) return reject(stderr);
+            //if (stderr) return reject(stderr);
+            console.error(stderr);
             console.log(stdout);
             resolve(stdout);
         });
