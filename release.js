@@ -117,6 +117,9 @@ status()
     .then(function () {
         return pushTags();
     })
+    .then(function () {
+        return checkout('master');
+    })
     .catch(function (err) {
         console.error(err);
     });
