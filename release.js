@@ -12,16 +12,16 @@ function updateVersions() {
         manifest.oldVersion = manifest.data.version;
     });
 
+    if (!args[0])
+        return Promise.reject(manifests.map(function (manifest) {
+            return [manifest.path, manifest.oldVersion];
+        }));
+
     newVersion = semver.valid(args[0]) || semver.inc(manifests[0].data.version, args[0]);
 
     manifests.forEach(function (manifest) {
         manifest.data.version = newVersion;
     });
-
-    if (!args[0])
-        return Promise.reject(manifests.map(function (manifest) {
-            return [manifest.path, manifest.oldVersion];
-        }));
 
     return Promise.all(manifests.map(function (manifest) {
         return new Promise(function (resolve, reject) {
