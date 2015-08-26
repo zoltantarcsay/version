@@ -44,10 +44,6 @@ function cmd(command) {
     });
 }
 
-function getBranch() {
-    return cmd('git branch');
-}
-
 function status() {
     return cmd('git status -s');
 }
@@ -78,11 +74,7 @@ function pushTags() {
 
 status()
     .then(function (status) {
-        return (status && status.length) ? Promise.reject('There are uncommitted changes.') : getBranch();
-    })
-    .then(function (branch) {
-        if (!~branch.indexOf('* master'))
-            return checkout('master');
+        return (status && status.length) ? Promise.reject('There are uncommitted changes.') : checkout('master');
     })
     .then(function () {
         return updateVersions();
