@@ -35,6 +35,7 @@ function updateVersions() {
 
 function cmd(command) {
     return new Promise(function (resolve, reject) {
+        console.log('exec: ' + command);
         exec(command, function (err, stdout, stderr) {
             if (err) return reject(err);
             //if (stderr) return reject(stderr);
